@@ -1,9 +1,14 @@
 {
-  "trailingComma": "es5",
-  "useTabs": false,
-  "tabWidth": 2,
-  "semi": false,
   "singleQuote": true,
-  "endOfLine": "auto",
-  "printWidth": 120
+  "trailingComma": "all",
+  "printWidth": 140,
+  "useTabs": false,
+  "tabWidth": 4,
+  "bracketSpacing": true,
+  "prettier/prettier": [
+    "error",
+    {
+      "endOfLine": "auto"
+    }
+  ]
 }
