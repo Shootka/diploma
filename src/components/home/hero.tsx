@@ -15,17 +15,17 @@ interface ExpItemProps {
     item: Exp;
 }
 
-const exps: Array<Exp> = [
+const exps: Exp[] = [
     {
-        label: 'Клієнтів',
+        label: 'Пацієнтів, яким ми допомогли',
         value: '10K+',
     },
     {
-        label: 'Quality Course',
+        label: 'Кваліфікованих лікарів',
         value: '20+',
     },
     {
-        label: 'Experience Mentors',
+        label: 'Філіалів у різних містах',
         value: '10+',
     },
 ];
@@ -45,7 +45,6 @@ const ExpItem: FC<ExpItemProps> = ({ item }) => {
         </Box>
     );
 };
-
 const HomeHero: FC = () => {
     return (
         <Box id='hero' sx={{ backgroundColor: 'background.paper', position: 'relative', pt: 4, pb: { xs: 8, md: 10 } }}>
@@ -136,33 +135,15 @@ const HomeHero: FC = () => {
                             <Box sx={{ mb: 4, width: { xs: '100%', md: '70%' } }}>
                                 <Typography sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
                                     {
-                                        'Let\'s take an online course to improve your skills in a different way, you can set your own study time according to your learning speed. So you san study comfortable and absorb tge material easily.'
+                                        'Ми забезпечуємо найвищий рівень медичної допомоги та індивідуальний підхід до кожного пацієнта. Завдяки нашій команді висококваліфікованих лікарів та сучасному обладнанню, ми гарантуємо ефективне та безпечне лікування.'
                                     }
                                 </Typography>
                             </Box>
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={5} sx={{ position: 'relative' }}>
-                        {/* Sertificate badge */}
-                        <Box
-                            sx={{
-                                position: 'absolute',
-                                bottom: 30,
-                                left: { xs: 0, md: -150 },
-                                boxShadow: 1,
-                                borderRadius: 3,
-                                px: 2,
-                                py: 1.4,
-                                zIndex: 1,
-                                backgroundColor: 'background.paper',
-                                display: 'flex',
-                                alignItems: 'flex-start',
-                                width: 280,
-                            }}
-                        >
-                        </Box>
                         <Box sx={{ lineHeight: 0 }}>
-                            <Image src='/images/home-hero.jpg' width={775} height={787} alt='Hero img' />
+                            <Image src='/images/header-bg.jpeg' width={660} height={787} alt='Hero img' />
                         </Box>
                     </Grid>
                 </Grid>

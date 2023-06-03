@@ -1,52 +1,43 @@
-import type { Mentor } from '@/interfaces/mentor'
+import type {Mentor} from '@/interfaces/mentor'
 
 export const data: Array<Mentor> = [
-  {
-    id: 1,
-    photo: '/images/mentors/christian-buehner-DItYlc26zVI-unsplash.jpg',
-    name: 'Jhon Dwirian',
-    category: 'UI/UX Design',
-    description:
-      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    company: {
-      name: 'Grab',
-      logo: '/images/companies/grab.png',
+    {
+        id: 1,
+        photo: '/images/doctors/woman-1.jpeg',
+        name: 'Доктор Ірина Соколова',
+        category: 'Доктор медичних наук',
+        description:
+            'Доктор Ірина Соколова є висококваліфікованим медичним доктором з багаторічним досвідом. Вона спеціалізується у гастроентерології та надає професійну допомогу у лікуванні хвороб шлунка та кишечнику.',
     },
-  },
-  {
-    id: 2,
-    photo: '/images/mentors/jonas-kakaroto-KIPqvvTOC1s-unsplash.jpg',
-    name: 'Leon S Kennedy',
-    category: 'Machine Learning',
-    description:
-      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    company: {
-      name: 'Google',
-      logo: '/images/companies/google.png',
+    {
+        id: 2,
+        photo: '/images/doctors/man-1.jpeg',
+        name: 'Доктор Михайло Петров',
+        category: 'Кандидат медичних наук',
+        description:
+            'Доктор Михайло Петров є відомим експертом в галузі кардіології з великим науковим досвідом. Він спеціалізується на діагностиці та лікуванні серцевих захворювань, і його робота вже допомогла багатьом пацієнтам покращити їхнє серцеве здоров\'я.',
     },
-  },
-  {
-    id: 3,
-    photo: '/images/mentors/noah-buscher-8A7fD6Y5VF8-unsplash.jpg',
-    name: 'Nguyễn Thuy',
-    category: 'Android Development',
-    description:
-      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    company: {
-      name: 'Airbnb',
-      logo: '/images/companies/airbnb.png',
+    {
+        id: 3,
+        photo: '/images/doctors/woman-2.jpeg',
+        name: 'Доктор Наталія Ковальчук',
+        category: 'Лікар загальної практики',
+        description:
+            'Доктор Наталія Ковальчук є досвідченим лікарем загальної практики з широким спектром знань і навичок у всіх аспектах медичної практики. Вона вміло діагностує різні захворювання та надає компетентну медичну допомогу пацієнтам різного віку.',
     },
-  },
-  {
-    id: 4,
-    photo: '/images/mentors/philip-martin-5aGUyCW_PJw-unsplash.jpg',
-    name: 'Rizki Known',
-    category: 'Fullstack Development',
-    description:
-      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    company: {
-      name: 'Microsoft',
-      logo: '/images/companies/microsoft.png',
+    {
+        id: 7,
+        photo: '/images/doctors/man-3.jpeg',
+        name: 'Доктор Михайло Сидоренко',
+        category: 'Магістр медичних наук',
+        description:
+            'Доктор Михайло Сидоренко є спеціалістом з неврології. Він має великий досвід у діагностиці та лікуванні захворювань нервової системи. Доктор Сидоренко володіє сучасними методиками дослідження та лікування, що допомагає йому забезпечити ефективну медичну допомогу своїм пацієнтам.',
+    }, {
+        id: 8,
+        photo: '/images/doctors/woman-5.jpeg',
+        name: 'Доктор Ірина Литвиненко',
+        category: 'Доктор медичних наук',
+        description:
+            'Доктор Ірина Литвиненко є гастроентерологом з великим досвідом. Вона спеціалізується на діагностиці та лікуванні захворювань шлунково-кишкового тракту. Доктор Литвиненко має репутацію досвідченого та уважного лікаря, який завжди ставить інтереси пацієнта на перше місце.',
     },
-  },
 ]

@@ -28,10 +28,10 @@ const courseMenu: Array<Navigation> = [
 const pageMenu = headerNavigations
 
 const companyMenu: Array<Navigation> = [
-  { label: 'Contact Us', path: '#' },
-  { label: 'Privacy & Policy', path: '#' },
-  { label: 'Term & Condition', path: '#' },
-  { label: 'FAQ', path: '#' },
+  { label: 'Контакти', path: '#' },
+  { label: 'Конфіденційність і політика', path: '#' },
+  { label: 'Умови використання', path: '#' },
+  { label: 'Часто задавані питання ', path: '#' },
 ]
 
 interface NavigationItemProps {
@@ -66,13 +66,13 @@ const FooterNavigation: FC = () => {
         ))}
       </Grid>
       <Grid item xs={12} md={4}>
-        <FooterSectionTitle title="Menu" />
+        <FooterSectionTitle title="Меню" />
         {pageMenu.map(({ label, path }, index) => (
           <NavigationItem key={index + path} label={label} path={path} />
         ))}
       </Grid>
       <Grid item xs={12} md={4}>
-        <FooterSectionTitle title="About" />
+        <FooterSectionTitle title="Про нас" />
         {companyMenu.map(({ label, path }, index) => (
           <NavigationItem key={index + path} label={label} path={path} />
         ))}

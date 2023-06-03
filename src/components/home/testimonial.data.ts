@@ -3,61 +3,61 @@ import type { Testimonial } from '@/interfaces/testimonial'
 export const data: Array<Testimonial> = [
   {
     id: 1,
-    title: 'Detailed learning materials',
+    title: 'Відмінний сервіс та професіоналізм',
     content:
-      'Classes that provide very detailed material in term of making UI UX Design starting team making low and hight quality, system designs, using data layout and make prototypes and testing.',
+      'Приємно вражений рівнем обслуговування та увагою до деталей. Клініка має сучасне обладнання та висококваліфіковані лікарі. Рекомендую!',
     user: {
       id: 1,
-      name: 'Luis Sera',
-      professional: 'UI/UX Engineer',
+      name: 'Олександр Петренко',
+      professional: 'бізнесмен',
       photo: '1.jpg',
     },
   },
   {
     id: 2,
-    title: 'Best Quality Online Course!',
+    title: 'Ефективне лікування та швидкий результат',
     content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      'Проведене лікування принесло помітні поліпшення у моєму стані здоров\'я. Лікарі підібрали оптимальну схему та надали вичерпні консультації. Дякую!',
     user: {
       id: 1,
-      name: 'Riski',
-      professional: 'Software Engineer',
+      name: 'Семен Шепетко',
+      professional: 'Вчитель',
       photo: '2.jpg',
     },
   },
   {
     id: 3,
-    title: 'Very complete class',
+    title: 'Висока професійність та знання',
     content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      'Лікар продемонстрував високий рівень компетенції та професіоналізму. Його рекомендації допомогли швидко вирішити проблему. Дякую за якісне обслуговування!',
     user: {
       id: 1,
-      name: 'Nguyễn Văn',
-      professional: 'FullStack Designer',
+      name: 'Максим Коваленко',
+      professional: 'фінансовий аналітик',
       photo: '3.jpg',
     },
   },
   {
     id: 4,
-    title: 'Great Quality!',
+    title: 'Високий рівень професіоналізму та турботи',
     content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      'Лікарі клініки проявили неймовірну увагу до моєї проблеми, ретельно вислухали та дали чіткі рекомендації. Відчував себе в безпеці та впевнено. Рекомендую всім!',
     user: {
       id: 1,
-      name: 'Diana Jordan',
-      professional: 'SEO Expert',
+      name: 'Олена Кравченко',
+      professional: 'менеджер',
       photo: '4.jpg',
     },
   },
   {
     id: 5,
-    title: 'Detailed learning materials',
+    title: 'Якісне обслуговування та комфортна атмосфера',
     content:
-      'Classes that provide very detailed material in term of making UI UX Design starting team making low and hight quality, system designs, using data layout and make prototypes and testing.',
+      'Відчував себе впевнено та з комфортом під час візиту до клініки. Лікарі створюють дружню атмосферу та забезпечують якісне обслуговування. Рекомендую цей медичний центр!',
     user: {
       id: 1,
-      name: 'Ashley Graham',
-      professional: 'Back-End Developer',
+      name: 'Марія Григоренко',
+      professional: 'дизайнер',
       photo: '5.jpg',
     },
   },

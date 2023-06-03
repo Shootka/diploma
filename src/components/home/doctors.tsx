@@ -8,8 +8,9 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme, styled } from '@mui/material/styles'
 import IconArrowBack from '@mui/icons-material/ArrowBack'
 import IconArrowForward from '@mui/icons-material/ArrowForward'
-import { MentorCardItem } from '@/components/mentor'
+
 import { data } from './mentors.data'
+import {MentorCardItem} from "@/components/mentor";
 
 interface SliderArrowArrow {
   onClick?: () => void
@@ -93,7 +94,7 @@ const HomeOurMentors: FC = () => {
     >
       <Container maxWidth="lg">
         <Typography variant="h1" sx={{ fontSize: 40 }}>
-          Our Expert Mentors
+          Наші лікарі
         </Typography>
 
         <Slider {...sliderConfig}>
