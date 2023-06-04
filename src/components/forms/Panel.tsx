@@ -8,6 +8,7 @@ import SignInForm from '@/components/forms/SignInForm';
 import { LOG_KEY, TOKEN } from '@/static/storageKeys';
 import { register } from '@/query/registration';
 import toast from 'react-hot-toast';
+import { login } from '@/query/login';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -49,26 +50,31 @@ interface Props {
 
 const Panel = ({ setLoggedIn, setOpenModal }: Props) => {
     const [value, setValue] = React.useState(0);
-
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
-
-    const onSubmit = (data: any) => {
+    const onSubmitLogin = (data: any) => {
         if (data) {
-            setLoggedIn(true);
-            setOpenModal(false);
-            localStorage.setItem(LOG_KEY, JSON.stringify(true));
+            if (data) {
+                login(data).then(res => {
+                    if (res) {
+                        localStorage.setItem(TOKEN, JSON.stringify(res?.accessToken));
+                        localStorage.setItem(LOG_KEY, JSON.stringify(true));
+                        toast.success('Авторизація пройшла успішно!');
+                        setLoggedIn(true);
+                        setOpenModal(false);
+                    }
+                });
+            }
         }
     };
     const onSubmitRegistration = (data: any) => {
         if (data) {
             register(data).then(res => {
-                console.log(res);
                 if (res) {
                     localStorage.setItem(TOKEN, JSON.stringify(res?.accessToken));
                     localStorage.setItem(LOG_KEY, JSON.stringify(true));
-                    toast.success('Реєстрація пройшла успішно')
+                    toast.success('Реєстрація пройшла успішно!');
                     setLoggedIn(true);
                     setOpenModal(false);
                 }
@@ -83,7 +89,7 @@ const Panel = ({ setLoggedIn, setOpenModal }: Props) => {
                 <Tab label='Зареєструватись' {...a11yProps(1)} />
             </Tabs>
             <TabPanel value={value} index={0}>
-                <SignInForm onSubmit={onSubmit} />
+                <SignInForm onSubmit={onSubmitLogin} />
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <RegistrationForm onSubmit={onSubmitRegistration} />

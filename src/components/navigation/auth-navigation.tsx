@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import { StyledButton } from '@/components/styled-button';
 import Modal from '@mui/material/Modal';
 import { getLocalStorageValue } from '@/utils/getLocalStorageValue';
-import { LOG_KEY } from '@/static/storageKeys';
+import { LOG_KEY, TOKEN } from '@/static/storageKeys';
 import IconButton from '@mui/material/IconButton';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { useRouter } from 'next/router';
@@ -14,7 +14,7 @@ import dynamic from 'next/dynamic';
 const DynamicPanel = dynamic(() => import('@/components/forms/Panel'), { ssr: false });
 const DynamicAppointmentForm = dynamic(() => import('@/components/forms/AppointmentForm'), { ssr: false });
 
-const style = {
+export const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -37,8 +37,6 @@ const AuthNavigation: FC = () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const [isLoggedIn, setIsLoggedIn] = useState(JSON.parse(getLocalStorageValue(LOG_KEY)));
-    console.log(isLoggedIn);
-    console.log(typeof isLoggedIn);
     const handleProfileClick = () => {
         router.push('/cabinet');
     };
@@ -46,6 +44,7 @@ const AuthNavigation: FC = () => {
     const handleLogoutClick = () => {
         router.push('/home');
         localStorage.setItem(LOG_KEY, JSON.stringify(false));
+        localStorage.setItem(TOKEN, JSON.stringify(null));
         setIsLoggedIn(false);
     };
     return (
@@ -67,7 +66,8 @@ const AuthNavigation: FC = () => {
                             Увійти до кабінету
                         </StyledButton>
                         <StyledButton disableHoverEffect={false} onClick={() => handleOpen(2)}>Записатись на
-                            прийом</StyledButton>
+                            прийом
+                        </StyledButton>
                     </>
                 }
             </Box>

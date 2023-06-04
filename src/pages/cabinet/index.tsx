@@ -13,6 +13,10 @@ import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import { TabPanel } from '@/components/forms/Panel';
 import PatientInfo from '@/components/personal-cabinet/PersonalInfo';
+import { StyledButton } from '@/components/styled-button';
+import { style } from '@/components/navigation/auth-navigation';
+import AppointmentForm from '@/components/forms/AppointmentForm';
+import Modal from '@mui/material/Modal';
 
 
 const Cabinet: NextPageWithLayout = () => {
@@ -22,11 +26,11 @@ const Cabinet: NextPageWithLayout = () => {
     useEffect(() => {
         if (!router.isReady) return;
         if (!isLoggedIn && router.isReady) {
-            console.log('ne login');
             router.replace('/home');
         }
     }, [isLoggedIn, router]);
     const [value, setValue] = React.useState(0);
+    const [open, setOpen] = React.useState(false);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -37,11 +41,18 @@ const Cabinet: NextPageWithLayout = () => {
             <Box id='hero'
                  sx={{ backgroundColor: 'background.paper', position: 'relative', pt: 4, pb: { xs: 8, md: 10 } }}>
                 <Container maxWidth='lg'>
+                    <Box display={'flex'} justifyContent={'flex-end'}>
+                        <StyledButton disableHoverEffect={false} onClick={() => setOpen(true)}>Записатись на
+                            прийом
+                        </StyledButton>
+                    </Box>
                     <Tabs value={value} onChange={handleChange} aria-label='icon tabs example'>
                         <Tab icon={<PersonPinIcon />} iconPosition='end' label={'Персональна інформація'} />
                         <Tab icon={<HistoryOutlinedIcon />} iconPosition='end' label={'Історія відвідувань'} />
                         <Tab icon={<TimerOutlinedIcon />} iconPosition='end' label={'Майбутні відвідування'} />
+
                     </Tabs>
+
                     <TabPanel value={value} index={0}>
                         <PatientInfo />
                     </TabPanel>
@@ -50,6 +61,14 @@ const Cabinet: NextPageWithLayout = () => {
                     </TabPanel>
                 </Container>
             </Box>
+            <Modal
+                open={open}
+                onClose={() => setOpen(false)}
+            >
+                <Box sx={style}>
+                    <AppointmentForm setOpenModal={setOpen} />
+                </Box>
+            </Modal>
         </React.Fragment>
     );
 };

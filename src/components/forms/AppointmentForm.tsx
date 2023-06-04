@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, Grid, Button, Select, MenuItem, SelectChangeEvent } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
 import DoctorAppointmentForm from '@/components/forms/DoctorAppointmentForm';
@@ -7,12 +7,28 @@ import 'react-datepicker/dist/react-datepicker.css';
 import InputAdornment from '@mui/material/InputAdornment';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { format, getDay, isBefore, startOfToday } from 'date-fns';
+import { DoctorSpeciality } from '@/components/enum/doctor-speciality.enum';
+import { getDoctors } from '@/query/getDoctors';
+import { getLocalStorageValue } from '@/utils/getLocalStorageValue';
+import { TOKEN } from '@/static/storageKeys';
+import { newAuth } from '@/query/new-auth';
+import { newUknown } from '@/query/new-uknown';
+import jwt_decode from 'jwt-decode';
 
 setDefaultLocale('ru');
 
 interface Doctor {
     id: number;
-    name: string;
+    initials: string;
+}
+
+interface UknownUserSubmitInfo {
+    birthDate: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    patronym: string;
+    phone: string;
 }
 
 interface AppointmentFormData {
@@ -24,23 +40,46 @@ interface Props {
     setOpenModal: (val: boolean) => void;
 }
 
+type UserInfo = {
+    firstName: string;
+    lastName: string,
+    patronym: string
+    exp: number
+    iat: number
+    sub: string
+    phone: string
+    email: string
+    birthDate: string
+}
 const AppointmentForm = ({ setOpenModal }: Props) => {
     const [selectedDoctor, setSelectedDoctor] = useState<number>(-1);
-    const [selectedHelp, setSelectedHelp] = useState<number>(-1);
+    const [selectedHelp, setSelectedHelp] = useState('net');
     const [appointmentDate, setAppointmentDate] = useState<any>(null);
     const [isSelected, setIsSelected] = useState(false);
-    const doctors: Doctor[] = [
-        { id: 1, name: 'Доктор 1' },
-        { id: 2, name: 'Доктор 2' },
-        { id: 3, name: 'Доктор 3' },
-    ];
+    const token = JSON.parse(getLocalStorageValue(TOKEN) ?? '');
+    const today = new Date();
+    today.setDate(today.getDate() + 1);
+    const [doctorList, setDoctorList] = useState<Doctor[]>([]);
     const typeOfHelp = [
-        { id: 1, name: 'Дантист' },
-        { id: 2, name: 'Хірург' },
-        { id: 3, name: 'Педіатр' },
+        { id: DoctorSpeciality.DENTIST, name: 'Cтоматологія' },
+        { id: DoctorSpeciality.DERMATOLOGIST, name: 'Дерматологія' },
+        { id: DoctorSpeciality.ONCOLOGIST, name: 'Онкологія' },
+        { id: DoctorSpeciality.OPHTHALMOLOGIST, name: 'Офтальмологія' },
+        { id: DoctorSpeciality.SURGEON, name: 'Хірургія' },
+        { id: DoctorSpeciality.NEUROLOGIST, name: 'Нейрологія' },
+        { id: DoctorSpeciality.OTOLARYNGOLOGIST, name: 'Отоларингологія' },
     ];
     const excludedDates = ['2023-06-01', '2023-06-05', '2023-06-10'];
-
+    useEffect(() => {
+        if (selectedHelp !== 'net')
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        { // @ts-ignore
+            getDoctors(selectedHelp).then(res => {
+                console.log(res);
+                setDoctorList(res);
+            });
+        }
+    }, [selectedHelp]);
     const isExcludedDate = (date: any) => {
         const formattedDate = format(date, 'yyyy-MM-dd');
 
@@ -68,18 +107,47 @@ const AppointmentForm = ({ setOpenModal }: Props) => {
         setSelectedDoctor(event.target.value as number);
     };
     const handleHelpChange = (event: SelectChangeEvent<number>) => {
-        setSelectedHelp(event.target.value as number);
+        setSelectedHelp(event.target.value as string);
     };
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        const user: UserInfo | null = token ? jwt_decode(token) : null;
+        console.log(token);
+        console.log(user);
         event.preventDefault();
         const data: AppointmentFormData = {
             selectedDoctor,
             appointmentDate: handleDateChange(appointmentDate),
         };
         setFormData(data);
-        setIsSelected(true);
-        console.log('Дані форми:', data);
+        const authData = {
+            medicalDirection: selectedHelp,
+            patientId: user?.sub,
+            doctorId: selectedDoctor,
+            visitDate: handleDateChange(appointmentDate),
+        };
+        if (user) {
+            console.log(authData);
+            /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+            // @ts-ignore
+            newAuth(authData);
+        } else {
+            setIsSelected(true);
+        }
     };
+    const submitUnauthorizedUser = (sbmtData: UknownUserSubmitInfo) => {
+        console.log(sbmtData);
+        const data = {
+            medicalDirection: selectedHelp,
+            doctorId: selectedDoctor,
+            visitDate: handleDateChange(appointmentDate),
+            ...sbmtData,
+        };
+        /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+        // @ts-ignore
+        newUknown(data);
+    };
+    const selectedDoctorName = doctorList.find((item) => item.id === selectedDoctor);
+
     const availableTime = [];
     const currentDate = new Date().toISOString().split('T')[0];
     return (
@@ -92,6 +160,8 @@ const AppointmentForm = ({ setOpenModal }: Props) => {
                     <Grid item xs={12}>
                         <Select
                             id='type-select'
+                            /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                            // @ts-ignore
                             value={selectedHelp}
                             onChange={handleHelpChange}
                             fullWidth
@@ -107,7 +177,7 @@ const AppointmentForm = ({ setOpenModal }: Props) => {
                             }} />}
                             required
                         >
-                            <MenuItem value={-1} disabled>
+                            <MenuItem value={'net'} disabled>
                                 Виберіть направлення
                             </MenuItem>
                             {typeOfHelp.map((doctor) => (
@@ -138,9 +208,9 @@ const AppointmentForm = ({ setOpenModal }: Props) => {
                             <MenuItem value={-1} disabled>
                                 Виберіть доктора
                             </MenuItem>
-                            {doctors.map((doctor) => (
+                            {doctorList?.map((doctor) => (
                                 <MenuItem key={doctor.id} value={doctor.id}>
-                                    {doctor.name}
+                                    {doctor.initials}
                                 </MenuItem>
                             ))}
                         </Select>
@@ -165,6 +235,7 @@ const AppointmentForm = ({ setOpenModal }: Props) => {
                                         border: '1px solid black',
                                     }}
                                 />}
+                            minDate={today}
                             showTimeSelect
                             timeFormat='HH:mm'
                             timeIntervals={15}
@@ -176,21 +247,6 @@ const AppointmentForm = ({ setOpenModal }: Props) => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <Select
-                            input={
-                                <InputBase sx={{
-                                    backgroundColor: 'background.paper',
-                                    borderRadius: 3,
-                                    width: '100%',
-                                    height: 48,
-                                    px: 2,
-                                    mr: { xs: 0, md: 3 },
-                                    mb: { xs: 2, md: 0 },
-                                    border: '1px solid black',
-                                }} />
-                            } />
-                    </Grid>
-                    <Grid item xs={12}>
                         <Button type='submit' variant='contained' color='primary'>
                             Записатися
                         </Button>
@@ -198,8 +254,12 @@ const AppointmentForm = ({ setOpenModal }: Props) => {
                 </Grid>
             </form>}
             {isSelected &&
-                <DoctorAppointmentForm setOpenModal={setOpenModal} appointmentDate={formDate.appointmentDate}
-                                       doctorName={formDate.selectedDoctor} />}
+                <DoctorAppointmentForm
+                    onSubmit={submitUnauthorizedUser}
+                    doctorId={formDate.selectedDoctor.toString()}
+                    setOpenModal={setOpenModal}
+                    appointmentDate={formDate.appointmentDate}
+                    doctorName={selectedDoctorName?.initials ?? ''} />}
         </>
     );
 };

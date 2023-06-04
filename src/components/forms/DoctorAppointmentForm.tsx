@@ -5,9 +5,11 @@ import Box from '@mui/material/Box';
 import toast from 'react-hot-toast';
 
 interface DoctorAppointmentFormProps {
-    doctorName: number;
+    doctorName: string;
+    doctorId: string;
     appointmentDate: string;
     setOpenModal: (val: boolean) => void;
+    onSubmit: (val: any) => void;
 }
 
 const StyledFormControl = styled(FormControl)({
@@ -18,18 +20,20 @@ const DoctorAppointmentForm: FC<DoctorAppointmentFormProps> = ({
                                                                    doctorName,
                                                                    appointmentDate,
                                                                    setOpenModal,
+                                                                   doctorId,
+                                                                   onSubmit,
                                                                }) => {
     const [formData, setFormData] = useState({
+        birthDate: '',
         firstName: '',
         lastName: '',
-        patronymic: '',
+        patronym: '',
         phone: '',
         email: '',
         address: '',
         complaints: '',
         consent: false,
     });
-
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = event.target;
         const updatedValue = type === 'checkbox' ? checked : value;
@@ -42,16 +46,16 @@ const DoctorAppointmentForm: FC<DoctorAppointmentFormProps> = ({
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // Обработка отправки формы
-        console.log(formData);
-        toast.success(`Вас записано, до лікаря ${doctorName} на ${appointmentDate}`, { duration: 2500 });
+        const { lastName, firstName, patronym, birthDate, phone, email } = formData;
+        const data = { lastName, firstName, patronym, birthDate, phone, email };
+        onSubmit(data)
         setOpenModal(false);
     };
 
     return (
         <form onSubmit={handleSubmit} style={{ width: '600px' }}>
-            <h2>Запись к врачу {doctorName}</h2>
-            <p>Дата записи: {appointmentDate}</p>
+            <h2>Запис до лікаря <strong>{doctorName}</strong></h2>
+            <p>Дата запису: <strong>{appointmentDate}</strong></p>
             <Box display={'flex'} gap={'20px'}>
                 <Box>
                     <StyledFormControl>
@@ -108,9 +112,9 @@ const DoctorAppointmentForm: FC<DoctorAppointmentFormProps> = ({
                                 mb: { xs: 2, md: 0 },
                                 border: '1px solid black',
                             }}
-                            name='patronymic'
+                            name='patronym'
                             placeholder='По батькові (введіть українською)'
-                            value={formData.patronymic}
+                            value={formData.patronym}
                             onChange={handleChange}
                             required
                         />
@@ -157,8 +161,12 @@ const DoctorAppointmentForm: FC<DoctorAppointmentFormProps> = ({
                         />
                     </StyledFormControl>
                     <StyledFormControl>
-                        <FormLabel>Адреса</FormLabel>
+                        <FormLabel>Дата народження</FormLabel>
                         <InputBase
+                            type='date'
+                            name={'birthDate'}
+                            placeholder={'Дата народження'}
+                            value={formData.birthDate}
                             sx={{
                                 backgroundColor: 'background.paper',
                                 borderRadius: 3,
@@ -169,15 +177,33 @@ const DoctorAppointmentForm: FC<DoctorAppointmentFormProps> = ({
                                 mb: { xs: 2, md: 0 },
                                 border: '1px solid black',
                             }}
-                            name='address'
-                            placeholder='Адреса (Місто, вулиця, будинок, квартира)'
-                            value={formData.address}
                             onChange={handleChange}
+                            fullWidth
                             required
                         />
                     </StyledFormControl>
                 </Box>
             </Box>
+            <StyledFormControl>
+                <FormLabel>Адреса</FormLabel>
+                <InputBase
+                    sx={{
+                        backgroundColor: 'background.paper',
+                        borderRadius: 3,
+                        width: '100%',
+                        height: 48,
+                        px: 2,
+                        mr: { xs: 0, md: 3 },
+                        mb: { xs: 2, md: 0 },
+                        border: '1px solid black',
+                    }}
+                    name='address'
+                    placeholder='Адреса (Місто, вулиця, будинок, квартира)'
+                    value={formData.address}
+                    onChange={handleChange}
+                    required
+                />
+            </StyledFormControl>
             <StyledFormControl>
                 <FormLabel>Ваші скарги</FormLabel>
                 <InputBase

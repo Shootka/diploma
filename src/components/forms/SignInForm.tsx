@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, FormControl, FormLabel, InputAdornment } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
 import Box from '@mui/material/Box';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
-import { login } from '@/query/login';
+
 
 interface SignInFormProps {
     onSubmit: (data: SignInFormData) => void;
@@ -39,10 +39,6 @@ const SignInForm: React.FC<SignInFormProps> = ({ onSubmit }) => {
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
-    useEffect(() => {
-        // register().then(r => console.log(r));
-        login().then(r => console.log(r));
-    }, []);
     return (
         <form onSubmit={handleSubmit}>
             <Box display={'flex'} flexDirection={'column'} gap={'20px'} mb={'20px'}>
