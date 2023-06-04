@@ -1,30 +1,18 @@
-import React from 'react'
-import dynamic from 'next/dynamic'
-import {NextPageWithLayout} from '@/interfaces/layout'
-import {MainLayout} from '@/components/layout'
-
-const DynamicHomeHero = dynamic(() => import('../components/home/hero'))
-const DynamicHomeFeature = dynamic(() => import('../components/home/feature'))
-const DynamicHomePopularCourse = dynamic(() => import('../components/home/popular-courses'))
-const DynamicHomeTestimonial = dynamic(() => import('../components/home/testimonial'))
-const DynamicHomeOurMentors = dynamic(() => import('../components/home/doctors'))
-const DynamicHomeNewsLetter = dynamic(() => import('../components/home/newsletter'))
-
+import React, { useEffect } from 'react';
+import { NextPageWithLayout } from '@/interfaces/layout';
+import { useRouter } from 'next/router';
+import BlankLayout from '@/components/layout/blank';
+import CircularProgress from '@mui/material/CircularProgress';
 const Home: NextPageWithLayout = () => {
-    return (
-        <>
-            <DynamicHomeHero/>
-            <DynamicHomePopularCourse/>
-            <DynamicHomeFeature/>
-            <DynamicHomeTestimonial/>
-            <DynamicHomeOurMentors/>
-            <DynamicHomeNewsLetter/>
-        </>
-    )
-}
+    const router = useRouter();
+    useEffect(() => {
+        if (!router.isReady) {
+            return;
+        } else router.push('/home');
+    }, [router]);
 
-Home.getLayout = (page) => <MainLayout>{page}</MainLayout>
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-Home.getInitialProps = null
-export default Home
+    return (<CircularProgress />);
+};
+
+Home.getLayout = (page) => <BlankLayout>{page}</BlankLayout>;
+export default Home;

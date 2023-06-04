@@ -26,7 +26,7 @@ const Navigation: FC = () => {
             px: { xs: 0, md: 3 },
             mb: { xs: 3, md: 0 },
             fontSize: { xs: '1.2rem', md: 'inherit' },
-            ...(destination === '/' && {
+            ...(destination === '/home' && {
               color: 'primary.main',
             }),
 

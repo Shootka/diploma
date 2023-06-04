@@ -5,7 +5,9 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import RegistrationForm from '@/components/forms/RegistrationForm';
 import SignInForm from '@/components/forms/SignInForm';
-import { LOG_KEY } from '@/static/storageKeys';
+import { LOG_KEY, TOKEN } from '@/static/storageKeys';
+import { register } from '@/query/registration';
+import toast from 'react-hot-toast';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -54,9 +56,23 @@ const Panel = ({ setLoggedIn, setOpenModal }: Props) => {
 
     const onSubmit = (data: any) => {
         if (data) {
-            setLoggedIn(true)
-            setOpenModal(false)
+            setLoggedIn(true);
+            setOpenModal(false);
             localStorage.setItem(LOG_KEY, JSON.stringify(true));
+        }
+    };
+    const onSubmitRegistration = (data: any) => {
+        if (data) {
+            register(data).then(res => {
+                console.log(res);
+                if (res) {
+                    localStorage.setItem(TOKEN, JSON.stringify(res?.accessToken));
+                    localStorage.setItem(LOG_KEY, JSON.stringify(true));
+                    toast.success('Реєстрація пройшла успішно')
+                    setLoggedIn(true);
+                    setOpenModal(false);
+                }
+            });
         }
     };
     return (
@@ -70,7 +86,7 @@ const Panel = ({ setLoggedIn, setOpenModal }: Props) => {
                 <SignInForm onSubmit={onSubmit} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <RegistrationForm onSubmit={onSubmit} />
+                <RegistrationForm onSubmit={onSubmitRegistration} />
             </TabPanel>
         </Box>
     );

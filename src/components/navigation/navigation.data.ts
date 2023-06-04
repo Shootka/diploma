@@ -1,4 +1,4 @@
-import type {Navigation} from '@/interfaces/navigation'
+import type { Navigation } from '@/interfaces/navigation';
 
 export const navigations: Navigation[] = [
     {
@@ -18,4 +18,4 @@ export const navigations: Navigation[] = [
         path: 'testimonial', // '/testimonial',
     },
 
-]
+];

@@ -1,21 +1,33 @@
 import React, { useState } from 'react';
-import { Button, FormControl, FormLabel } from '@mui/material';
+import { Button, FormControl, FormLabel, TextField } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
+import { register } from '@/query/registration';
 
 interface RegistrationFormProps {
-    onSubmit: (data: RegistrationFormData) => void;
+    onSubmit: (data: SubmitData) => void;
 }
 
 interface RegistrationFormData {
     firstName: string;
     lastName: string;
     patronym: string;
-    phoneNumber: string;
+    phone: string;
     email: string;
     birthDate: string;
-    address: string;
+    password: string;
+    check_pass: string;
+}
+
+export interface SubmitData {
+    firstName: string;
+    lastName: string;
+    patronym: string;
+    phone: string;
+    email: string;
+    birthDate: string;
+    password: string;
 }
 
 export const RowBox = styled(Box)({
@@ -27,12 +39,18 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
         firstName: '',
         patronym: '',
         lastName: '',
-        phoneNumber: '',
+        phone: '',
         email: '',
         birthDate: '',
-        address: '',
+        password: '',
+        check_pass: '',
     });
+    const [isValid, setIsValid] = useState(true);
 
+    const validatePhoneNumber = () => {
+        const phoneRegex = /^380\d{9}$/;
+        setIsValid(phoneRegex.test(formData.phone));
+    };
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -40,10 +58,14 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
+        const { lastName, firstName, patronym, password, email, birthDate, phone } = formData;
+        if (formData.password === formData.check_pass) {
+            onSubmit({ lastName, firstName, patronym, password, email, birthDate, phone });
+        }
         console.log(formData);
-        onSubmit(formData);
-    };
 
+    };
+    console.log(isValid);
     return (
         <form onSubmit={handleSubmit}>
             <Box display={'flex'} flexDirection={'column'} gap={'20px'} mb={'20px'} width={650}>
@@ -115,11 +137,15 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
                                 mr: { xs: 0, md: 3 },
                                 mb: { xs: 2, md: 0 },
                                 border: '1px solid black',
-                            }} name='phoneNumber'
+                            }} name='phone'
+                            type={'text'}
                             placeholder='+38 XXX-XXX-XX-XX'
-                            value={formData.phoneNumber}
+                            value={formData.phone}
+                            onBlur={validatePhoneNumber}
+                            error={!isValid}
                             onChange={handleChange}
                             required />
+                        {!isValid && <p>Помилка </p>}
                     </FormControl>
                     <FormControl>
                         <FormLabel>Електронна пошта</FormLabel>
@@ -163,8 +189,12 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
                     </FormControl>
                 </RowBox>
                 <FormControl>
-                    <FormLabel>Адреса</FormLabel>
+                    <FormLabel>Придумайте пароль</FormLabel>
                     <InputBase
+                        type='password'
+                        name={'password'}
+                        placeholder={''}
+                        value={formData.password}
                         sx={{
                             backgroundColor: 'background.paper',
                             borderRadius: 3,
@@ -174,14 +204,34 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
                             mr: { xs: 0, md: 3 },
                             mb: { xs: 2, md: 0 },
                             border: '1px solid black',
-                        }} name='address'
-                        type='text'
-                        placeholder='Адреса (Місто, вулиця, будинок, квартира)'
-                        value={formData.address}
+                        }}
                         onChange={handleChange}
-                        required />
+                        fullWidth
+                        required
+                    />
                 </FormControl>
-
+                <FormControl>
+                    <FormLabel>Підтвердіть пароль</FormLabel>
+                    <InputBase
+                        type='password'
+                        name={'check_pass'}
+                        placeholder={''}
+                        value={formData.check_pass}
+                        sx={{
+                            backgroundColor: 'background.paper',
+                            borderRadius: 3,
+                            width: '100%',
+                            height: 48,
+                            px: 2,
+                            mr: { xs: 0, md: 3 },
+                            mb: { xs: 2, md: 0 },
+                            border: '1px solid black',
+                        }}
+                        onChange={handleChange}
+                        fullWidth
+                        required
+                    />
+                </FormControl>
             </Box>
             <Box display={'flex'}>
                 <Button type='submit' variant='contained' color='primary' sx={{ flex: 'auto' }}>

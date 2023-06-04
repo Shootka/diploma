@@ -44,31 +44,31 @@ const AuthNavigation: FC = () => {
     };
 
     const handleLogoutClick = () => {
-        router.push('/');
+        router.push('/home');
         localStorage.setItem(LOG_KEY, JSON.stringify(false));
         setIsLoggedIn(false);
     };
     return (
-        <>
-            <Box sx={{ '& button:first-child': { mr: 2 } }}>
+        <React.Fragment>
+            <Box>
                 {isLoggedIn &&
-                  <>
-                    <IconButton onClick={handleProfileClick}>
-                      <PersonOutlineOutlinedIcon color={'primary'} />
-                    </IconButton>
-                    <IconButton onClick={handleLogoutClick}>
-                      <LogoutOutlinedIcon color={'primary'} />
-                    </IconButton>
-                  </>
+                    <>
+                        <IconButton onClick={handleProfileClick}>
+                            <PersonOutlineOutlinedIcon color={'primary'} />
+                        </IconButton>
+                        <IconButton onClick={handleLogoutClick}>
+                            <LogoutOutlinedIcon color={'primary'} />
+                        </IconButton>
+                    </>
                 }
                 {!isLoggedIn &&
-                  <>
-                    <StyledButton disableHoverEffect={false} variant='outlined' onClick={() => handleOpen(1)}>
-                      Увійти до кабінету
-                    </StyledButton>
-                    <StyledButton disableHoverEffect={false} onClick={() => handleOpen(2)}>Записатись на
-                      прийом</StyledButton>
-                  </>
+                    <>
+                        <StyledButton disableHoverEffect={false} variant='outlined' onClick={() => handleOpen(1)}>
+                            Увійти до кабінету
+                        </StyledButton>
+                        <StyledButton disableHoverEffect={false} onClick={() => handleOpen(2)}>Записатись на
+                            прийом</StyledButton>
+                    </>
                 }
             </Box>
             <Modal
@@ -77,10 +77,10 @@ const AuthNavigation: FC = () => {
             >
                 <Box sx={style}>
                     {formId === 1 && <DynamicPanel setOpenModal={setOpen} setLoggedIn={setIsLoggedIn} />}
-                    {formId === 2 && <DynamicAppointmentForm setOpenModal={setOpen}/>}
+                    {formId === 2 && <DynamicAppointmentForm setOpenModal={setOpen} />}
                 </Box>
             </Modal>
-        </>
+        </React.Fragment>
     );
 };
 

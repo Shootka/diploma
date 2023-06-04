@@ -13,9 +13,7 @@ class MyDocument extends Document<DocumentProps> {
                 <Head>
                     <meta charSet='utf-8' />
                     <link rel='icon' href='/favicon.ico' />
-                    <meta name='viewport' content='initial-scale=1, width=device-width' />
                     <meta name='theme-color' content={theme.palette.background.paper} />
-
                     <meta content='#fbfbfb' name='theme-color' />
                     <meta content='#fbfbfb' name='msapplication-navbutton-color' />
                     <meta content='#fbfbfb' name='apple-mobile-web-app-status-bar-style' />
